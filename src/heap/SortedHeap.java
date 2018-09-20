@@ -56,6 +56,17 @@ public class SortedHeap implements Heap<Integer>{
 
 
     @Override
+    public Integer element()
+            throws NoSuchElementException{
+        if (size != 0){
+            return queue[0];
+        }
+        else{
+            throw new NoSuchElementException();
+        }
+    }
+
+    @Override
     public int size(){
         return this.size;
     }

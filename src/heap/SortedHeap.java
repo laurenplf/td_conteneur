@@ -18,26 +18,27 @@ public class SortedHeap implements Heap<Integer>{
      *
      * @return Index of the parent
      */
-    protected int parent(int index){
-        int loga = (int)Math.log(index+1)-1;
-        int parentPosition = 2^loga;
-        parentPosition = parentPosition + (index-parentPosition)/2 - 1;
+    protected int father(int index){
+        int position = index + 1;
+        int loga = (int)Math.log(position);
+        int parentPosition = 2^(loga - 1);
+        parentPosition = parentPosition + (position-2^loga)/2 - 1;
         return parentPosition;
     }
 
 
-    protected void echange(int index1, int index2){
+    protected void exchange(int index1, int index2){
         Integer temp = queue[index1];
         queue[index1] = queue[index2];
         queue[index2] = temp;
     }
 
 
-    protected void sortElement(int position){
-        int parentPosition = parent(position);
-        if (queue[position] > queue[parentPosition]){
-            echange(position, parentPosition);
-            sortElement(parentPosition);
+    protected void sortElementUp(int index){
+        int parentIndex = father(index);
+        if (queue[index] > queue[parentIndex]){
+            exchange(index, parentIndex);
+            sortElementUp(parentIndex);
         }
     }
 
@@ -46,12 +47,10 @@ public class SortedHeap implements Heap<Integer>{
     public boolean insertElement(Integer e) {
         queue[size] = e;
         size++;
-        boolean result = true;
         if (size > 1){
-            this.sortElement(size-1);
-            result = true;
+            this.sortElementUp(size-1);
         }
-        return result;
+        return true;
     }
 
 
@@ -64,6 +63,52 @@ public class SortedHeap implements Heap<Integer>{
         else{
             throw new NoSuchElementException();
         }
+    }
+
+    protected int biggestSonIndex(int index){
+        int position = index + 1;
+        int loga = (int)Math.log(position);
+        int firstSonIndex = 2^(loga+1) + 2*(position-2^loga) - 1;
+        int biggestSon = index;
+        if (firstSonIndex < size){ //On vérifie l'existence du premier fils
+            if(queue[firstSonIndex] > queue[index]) {
+                biggestSon = firstSonIndex;
+            }
+            if(firstSonIndex + 1 < size){ //Si le premier fils existe, on vérifie l'existence du deuxième
+                if(queue[biggestSon] > queue[firstSonIndex + 1]){
+                    biggestSon = firstSonIndex + 1;
+                }
+            }
+        }
+        return biggestSon;
+    }
+
+    protected void sortElementDown(int index){
+        int firstSon = biggestSonIndex(index);
+        if (queue[firstSon] > queue[index]) {
+            exchange(firstSon, index);
+            sortElementDown(firstSon);
+        }
+    }
+
+    @Override
+    public Integer popElement()
+            throws NoSuchElementException {
+        if (size == 0){
+            throw new NoSuchElementException();
+        }
+        else{
+            Integer result = queue[0];
+            size--;
+            queue[0] = queue[size];
+            sortElementDown(0);
+            return result;
+        }
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return (size == 0);
     }
 
     @Override

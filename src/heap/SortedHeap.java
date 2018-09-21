@@ -15,7 +15,7 @@ public class SortedHeap implements Heap<Integer>, Comparator {
         queue = new Integer[capacity];
     }
 
-    /** Find the position of the parent of the element on position "index"
+    /** Finds the position of the parent of the element on position "index"
      *
      * @return Index of the parent
      */
@@ -27,7 +27,7 @@ public class SortedHeap implements Heap<Integer>, Comparator {
         return parentPosition;
     }
 
-    /** Exchange the two elements whose indices are given as arguments
+    /** Exchanges the two elements whose indices are given as arguments
      *
      * @param index1
      * @param index2
@@ -38,7 +38,7 @@ public class SortedHeap implements Heap<Integer>, Comparator {
         queue[index2] = temp;
     }
 
-    /** Put the considered element at the right location in the heap by forcing to go up while possible
+    /** Puts the considered element at the right location in the heap by forcing to go up while possible
      *
      * @param index
      */
@@ -50,7 +50,7 @@ public class SortedHeap implements Heap<Integer>, Comparator {
         }
     }
 
-    /** Insert the considered element at the right location in the heap and update its size
+    /** Inserts the considered element at the right location in the heap and update its size
      *
      * @param e
      * @return true if insertion was realized
@@ -81,7 +81,7 @@ public class SortedHeap implements Heap<Integer>, Comparator {
         }
     }
 
-    /** Find the value of the index of the son with the highest priority (in case of existence)
+    /** Finds the value of the index of the son with the highest priority (in case of existence)
      *
      * @param index
      * @return index of highest priority son or index given as argument
@@ -104,7 +104,7 @@ public class SortedHeap implements Heap<Integer>, Comparator {
         return biggestSon;
     }
 
-    /** Put the considered element at the right location in the heap by forcing to go down while possible
+    /** Puts the considered element at the right location in the heap by forcing to go down while possible
      *
      * @param index
      */
@@ -116,7 +116,7 @@ public class SortedHeap implements Heap<Integer>, Comparator {
         }
     }
 
-    /** Remove the first (highest priority) element in the heap, update the heap and its size
+    /** Removes the first (highest priority) element in the heap, update the heap and its size
      *
      * @return first element of the heap
      * @throws NoSuchElementException
